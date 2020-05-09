@@ -15,20 +15,20 @@
 
         <div class="meme-photo"
         v-for="(photo, index) in photo_urls" :key="index"
-        v-on:click="selectPhoto(photo)">
+        v-on:click="selected_photo_url = photo;">
           <img v-bind:src="photo">
         </div>
       </div>
 
       <div class="col-md">
         <!-- Search form -->
-        <input class="form-control" type="text"
+        <input class="form-control" type="text" v-model="user_meme_text"
         placeholder="Add text to selected image." aria-label="Search">
 
-        <div class="meme-photo">
+        <figure>
           <img v-bind:src="selected_photo_url">
-        </div>
-
+          <figcaption>{{ user_meme_text }}</figcaption>
+        </figure>
       </div>
 
     </div>
@@ -44,6 +44,7 @@ export default {
       photo_urls: [],
       user_input: '',
       selected_photo_url: '',
+      user_meme_text: '',
     };
   },
   methods: {
@@ -59,10 +60,7 @@ export default {
           console.error(error);
         });
     },
-    selectPhoto(photoUrl) {
-      this.selected_photo_url = photoUrl;
-      console.log('selected photo');
-    },
+
   },
 };
 </script>
@@ -71,5 +69,8 @@ export default {
 <style>
 .meme-photo {
   padding: 5px;
+}
+figcaption {
+  display: block;
 }
 </style>
