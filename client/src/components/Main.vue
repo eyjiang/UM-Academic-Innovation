@@ -25,6 +25,8 @@
         <input class="form-control" type="text" v-model="user_meme_text"
         placeholder="Add text to selected image." aria-label="Search">
 
+        <br>
+
         <figure>
           <img v-bind:src="selected_photo_url">
           <figcaption>{{ user_meme_text }}</figcaption>
@@ -72,5 +74,7 @@ export default {
 }
 figcaption {
   display: block;
+  font-family: impact;
+  font-size: 40px;
 }
 </style>
