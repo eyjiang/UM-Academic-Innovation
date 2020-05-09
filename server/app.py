@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import requests
 import config
@@ -18,10 +18,10 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 API_KEY = config.api_key
 
 
-@app.route('/', methods=['GET'])
+@app.route('/photos', methods=['GET'])
 def retrieve_photos():
-
-    search_text = 'temp'
+    search_text = request.args['user_input']
+    print("user_input:" + search_text)
     photo_url_list = retrieve_flickr_imgs(search_text)
 
     return jsonify({
@@ -34,6 +34,8 @@ def retrieve_flickr_imgs(search_text):
     photo_url_list = []
     r = requests.get(
     'https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key={API_KEY}&text={search_text}&per_page=20&page=1&format=json&nojsoncallback=1'.format(API_KEY=API_KEY, search_text=search_text)).json()
+
+    # TODO: Handle no-results error case
 
     photos = r['photos']['photo']
     for photo in photos:
