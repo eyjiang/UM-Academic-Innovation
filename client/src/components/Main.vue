@@ -79,7 +79,6 @@ export default {
           this.chunked_urls = [];
           this.chunked_urls = chunkArray(this.photo_cols, this.photo_urls, this.chunked_urls);
           this.response_text = this.photo_urls.length === 0 ? 'No pictures found.' : 'Click on an image to select it!';
-          console.log(this.chunked_urls);
         })
         .catch((error) => {
           // eslint-disable-next-line
