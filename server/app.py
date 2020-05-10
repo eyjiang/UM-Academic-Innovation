@@ -21,7 +21,7 @@ API_KEY = config.api_key
 @app.route('/photos', methods=['GET'])
 def retrieve_photos():
     search_text = request.args['user_input']
-    print("user_input:" + search_text)
+    print(search_text)
     photo_url_list = retrieve_flickr_imgs(search_text)
 
     return jsonify({
