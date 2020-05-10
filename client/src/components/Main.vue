@@ -1,17 +1,18 @@
 <template>
   <div class="container">
+  <h1>Meme Generator</h1>
+  <br>
     <div class="row">
       <div class="col-sm">
-        <h1>Meme Generator</h1>
 
         <!-- Search form -->
         <input class="form-control" v-model="user_input"
-        type="text" placeholder="Search" aria-label="Search">
+        type="text" placeholder="Search for an image by typing here!" aria-label="Search">
         <br>
         <button v-on:click="getData" type="button"
         class="btn btn-success btn-sm">Search for an Image!</button>
 
-        <hr><br><br>
+        <hr><p>{{ response_text }}</p><br>
 
         <div v-for="(photo_urls, index) in chunked_urls" :key="index" class="row">
           <div v-for="(photo_url, index) in photo_urls" :key="index" class="col-lg-4">
@@ -25,12 +26,12 @@
 
       <div class="col-md">
         <!-- Search form -->
-        <input class="form-control" type="text" v-model="user_meme_text"
+        <input class="form-control" id="add-text-box" type="text" v-model="user_meme_text"
         placeholder="Add text to selected image." aria-label="Search">
 
         <br>
 
-        <figure>
+        <figure class="selected-photo">
           <img v-bind:src="selected_photo_url">
           <figcaption>{{ selected_photo_url ? user_meme_text : ''}}</figcaption>
         </figure>
@@ -65,6 +66,7 @@ export default {
       selected_photo_url: '',
       user_meme_text: '',
       photo_cols: 2,
+      response_text: '',
     };
   },
   methods: {
@@ -76,6 +78,7 @@ export default {
           this.photo_urls = res.data.photo_urls;
           this.chunked_urls = [];
           this.chunked_urls = chunkArray(this.photo_cols, this.photo_urls, this.chunked_urls);
+          this.response_text = this.photo_urls.length === 0 ? 'No pictures found.' : 'Click on an image to select it!';
           console.log(this.chunked_urls);
         })
         .catch((error) => {
@@ -93,6 +96,9 @@ export default {
 <style>
 .select-meme-photo {
   position: relative;
+  margin: auto;
+  width: 50%;
+  padding: 15px;
 }
 .select-meme-img {
   display: inline-block;
@@ -101,7 +107,7 @@ export default {
   border-radius: 5px;
   background-color: #fff;
   box-shadow: 0 3px 5px rgba(0,0,0,0.3);
-  transition: all 0.3s ease-in-out;
+  transition: all 0.15s ease-in-out;
   margin: 10px;
 }
 .select-meme-img::after {
@@ -121,6 +127,13 @@ export default {
 /* Fade in the pseudo-element with the bigger shadow */
 .select-meme-img:hover::after {
   opacity: 1;
+}
+.selected-photo {
+  position: relative;
+  top: 20px;
+}
+#add-text-box {
+  position: relative;
 }
 figcaption {
   display: block;

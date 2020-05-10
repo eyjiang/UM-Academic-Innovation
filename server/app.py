@@ -21,7 +21,6 @@ API_KEY = config.api_key
 @app.route('/photos', methods=['GET'])
 def retrieve_photos():
     search_text = request.args['user_input']
-    print(search_text)
     photo_url_list = retrieve_flickr_imgs(search_text)
 
     return jsonify({
@@ -32,10 +31,12 @@ def retrieve_photos():
 
 def retrieve_flickr_imgs(search_text):
     photo_url_list = []
-    r = requests.get(
-    'https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key={API_KEY}&text={search_text}&per_page=20&page=1&format=json&nojsoncallback=1'.format(API_KEY=API_KEY, search_text=search_text)).json()
 
-    # TODO: Handle no-results error case
+    try:
+        r = requests.get('https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key={API_KEY}&text={search_text}&per_page=20&page=1&format=json&nojsoncallback=1'.format(API_KEY=API_KEY, search_text=search_text)).json()
+    # Currently handles failed requests as simply returning "No Results"
+    except requests.exceptions.RequestException as e:
+        return []
 
     photos = r['photos']['photo']
     for photo in photos:
