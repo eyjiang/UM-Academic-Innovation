@@ -25,6 +25,7 @@
       </div>
 
       <div class="col-md">
+      <div>
         <!-- Search form -->
         <input class="form-control" id="add-text-box" type="text" v-model="user_meme_text"
         placeholder="Add text to selected image." aria-label="Search">
@@ -33,8 +34,10 @@
 
         <figure class="selected-photo">
           <img v-bind:src="selected_photo_url">
-          <figcaption>{{ selected_photo_url ? user_meme_text : ''}}</figcaption>
+            <!-- <figcaption>{{ selected_photo_url ? user_meme_text : ''}}</figcaption> -->
+          <div class="figcapt">{{ selected_photo_url ? user_meme_text : ''}} </div>
         </figure>
+        </div>
       </div>
 
     </div>
@@ -123,7 +126,6 @@ export default {
 .select-meme-img:hover {
   transform: scale(1.15, 1.15);
 }
-/* Fade in the pseudo-element with the bigger shadow */
 .select-meme-img:hover::after {
   opacity: 1;
 }
@@ -131,12 +133,17 @@ export default {
   position: relative;
   top: 20px;
 }
+.figcapt {
+  overflow-wrap: break-word;
+}
 #add-text-box {
   position: relative;
 }
-figcaption {
-  display: block;
+.figcapt {
+  width: 100%;
   font-family: impact;
   font-size: 40px;
+  display: inline-block;
+  word-break: break-all;
 }
 </style>
